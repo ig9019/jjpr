@@ -196,42 +196,32 @@ function isFullSquare(n) {
 }`,
 "45 DEGREES PROBLEM":`
 function solution(matrix, a, b) {
-    
-    
-
-    var sums=[];
-
-        
-    for (var i=0;i<Math.max(matrix.length,matrix[0].length);i++) {
-        for (var j=0;j<Math.max(matrix.length,matrix[0].length);j++) {
-           
+    var sums=[];  
+    var maxDimension=Math.max(matrix.length,matrix[0].length)
+    for (var i=0;i<maxDimension;i++) {
+        for (var j=0;j<maxDimension;j++) {      
             try {
 sums.push((extractDiag(matrix,b,a,j,i)).map(function(row){return row.reduce(function(a,b){return a+b},0)}).reduce(function(a,b){return a+b},0))
             } catch (e) {}
- 
             try {
 sums.push((extractDiag(matrix,a,b,j,i)).map(function(row){return row.reduce(function(a,b){return a+b},0)}).reduce(function(a,b){return a+b},0))
             } catch (e) {}           
         }
     }
-    
-  //  console.log(sums)
 return sums.sort(function(a,b){return b-a})[0]
 }
 
-
-
 function extractDiag(arr,x,y,x_offset,y_offset) {
-    //console.log("x : "+x+" y: "+y+" x offs: "+x_offset+" y offs: "+y_offset);
+
 var firstsq=[0,x-1];
 var secondsq=[x-1,0];
 var thirdsq=[y-1,x+y-2];
 var fourthsq=[x+y-2,y-1];
 var points={};
-points[0]=(points[0]||[]).concat(x-1);
-points[x-1]=(points[x-1]||[]).concat(0);
-points[y-1]=(points[y-1]||[]).concat(x+y-2);
-points[x+y-2]=(points[x+y-2]||[]).concat(y-1);
+points[0]=[x-1];
+points[x-1]=[0];
+points[y-1]=[x+y-2];
+points[x+y-2]=[y-1];
 var pointA={};
 var pointC={};
 for (var i=1;i<x-1;i++) {
@@ -280,18 +270,13 @@ points_Arr.push(temp)
 }
 return (points_Arr);
 
-
 }`,
 "SWATOOTHS PROBLEM":`
 function solution(arr){
-    // holds the count of sawtooths at each index of our input array,
-    // for sawtooth lengths up to that index
-    //# the resulting total sawtooth counts
     var totalSawCounts = 0
     var previousCount = 0
     for (var currIdx=1;currIdx<arr.length;currIdx++) 
     {
-        //console.log(currIdx)
         var currCount = 0
         var before = currIdx -1
         var cont=false;
@@ -303,17 +288,9 @@ function solution(arr){
             var goingUp = false
              cont=true;
 			}
-        else {
-            //console.log(arr[currIdx]);
-            //previousCount = currCount
-            
-			}
+       
         if ( cont==true) {
-       // # if we made it here, we have at least one sawtooth
         currCount =  1
-
-        //# see if there was a previous solution (the DP part)
-        //# and if it continues our current sawtooth
         if (before >= 1){
             if (goingUp){
                 if (arr[before-1] > arr[before]){
@@ -505,7 +482,6 @@ for (var k=0;k<str[0].length;k++) {
 console.log(results)
     return results.filter(function(v){return v[0]!="" && v[1]!="" && v[2]!="" && v[0]+v[1]!=v[1]+v[2] &&  v[0]+v[1]!=v[2]+v[0] &&  v[1]+v[2]!=v[2]+v[0] }).length
 
-
 }
 
 function splitit(b,i) {
@@ -561,14 +537,10 @@ var valueoffset=0;
 for (var i=0;i<queryType.length;i++) {
     if (queryType[i]=="insert") {
         
-        
         if (getrequests.hasOwnProperty(query[i][0]-keyoffset)) {
 
               obj[obj.length]=({"key":query[i][0],"value":query[i][1],"keyoffset":keyoffset,"valueoffset":valueoffset})
-        }
-      
-
-       
+        }     
     } else if (queryType[i]=="get") {
 
         var rec=obj.filter(function(v){return query[i][0]==v.key+keyoffset-v.keyoffset})[0]
@@ -595,15 +567,13 @@ if (mydif.length>1) {
     return true
 }
 
-//for (var k=0;k<mydif.length;k++) {
-    
     if (canbefixed(numbers[mydif[0]-1],numbers[mydif[0]],numbers[mydif[0]+1])==true) {
         return true
     };
     if (canbefixed(numbers[mydif[0]],numbers[mydif[0]+1],numbers[mydif[0]+2])==true) {
         return true
     };
-//}
+
 return false
 }
 
@@ -612,7 +582,6 @@ function differences(numbers) {
 }
 
 function canbefixed(a,b,c) {
-   // console.log("a: "+a+" b: "+b+" c: "+c)
     b=String(b).split("");
     console.log(b)
     for (var i=0;i<b.length-1;i++) {
@@ -624,9 +593,7 @@ function canbefixed(a,b,c) {
             return true
         }
     }       
-    }
-    
-    
+    }   
     return false;
 }`,
 "Q4 POWERS OF 2 SUM":`function solution(numbers) {
@@ -675,8 +642,7 @@ for (var i=0;i<mymaxword;i++) {
         } else {
             return ""
         }
-        
-        
+
         }).join("")}).join("")
 }
 return res
@@ -687,8 +653,6 @@ function maxWord(arr) {
     return [...arr].sort(function(a,b){return b.length-a.length})[0].length
 }`,
 "Q4 PROBLEM DIGIT ANAGRAMS":`function solution(a) {
-    
-//a=new Array(10000).fill("").map(function(v,i){return 100000000+i});
 
 a=a.map(function(v){ return String(v).split("").sort(function(a,b){return a-b}).join("")})
 var obj={};
