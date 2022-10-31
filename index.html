@@ -24,7 +24,8 @@ var questions=[
 "Q4 POWERS OF 2 SUM",
 "Q3 PROBLEM 0th,1th etc cosntruct string",
 "Q4 PROBLEM DIGIT ANAGRAMS",
-"PROBLEM CONTIGUOUS SUBARRAYS M THAT SUM K"
+"PROBLEM CONTIGUOUS SUBARRAYS M THAT SUM K",
+"a[i] + a[j] is divisible by k"
 ];
 
 var Descriptions={
@@ -114,7 +115,8 @@ More formally, given the array a, your task is to count the number of indices 0 
 
 s ≠ t
 a[s] + a[t] = k`
-	
+,"a[i] + a[j] is divisible by k":`You are given an array of integers a and an integer k. Your task is to calculate the number of ways to pick two different indices i < j, such that a[i] + a[j] is divisible by k.
+`	
 }
 
 var solutions={
@@ -745,6 +747,55 @@ return cnt
     }
 
     return cnt
+
+}`,
+"a[i] + a[j] is divisible by k":`function solution(a, k) {
+var obj={};
+
+for (var i=0;i<a.length;i++) {
+   // console.log(obj)
+    if (!obj.hasOwnProperty(a[i]%k)) {
+        obj[a[i]%k]=[i]
+    } else {
+    obj[a[i]%k].push(i)
+    }
+}
+var cnt=0;
+
+var checked={};
+for (var key in obj) {
+if (parseInt(key)<=Math.ceil((k-1)/2)){
+
+    if (parseInt(key)==0) {
+if (obj[key].length>1) {
+ for (var i=0;i<obj[key].length;i++) {
+          cnt=cnt+(obj[key].length-1-i)
+        }
+}
+    }
+    
+    if (obj.hasOwnProperty(k-parseInt(key))) {
+        
+        if ((k-parseInt(key))==key) {
+           for (var i=0;i<obj[key].length;i++) {
+          cnt=cnt+(obj[key].length-1-i)
+         
+        }  
+        }
+        else {
+        
+        for (var i=0;i<obj[key].length;i++) {
+            cnt=cnt+obj[k-parseInt(key)].length
+
+        }
+        }
+       
+    }
+    
+}
+}
+
+return cnt
 
 }`
 };
