@@ -1,0 +1,764 @@
+<html>
+
+<body>
+<select id="mainselect" onclick="displayProblem()">
+<option value="val">VALUE</option>
+</select>
+<!--<p id="description"></p>-->
+<p id="solution" style="font-size:3em"></p>
+<!--<textarea name="mysolution" cols="100" rows="100"></textarea>-->
+<script>
+var questions=[
+"SUM OF CONCATENATIONS",
+"TETRIX PROBLEM",
+"FULL SQUARE PROBLEM",
+"45 DEGREES PROBLEM",
+"SWATOOTHS PROBLEM",
+"RIBBONS PROBLEM",
+"MY OWN MERGE WORDS",
+"MINERS PROBLEM",
+"Q2 SUBSTRINGS A+B B+C C+A",
+"Q2 REMOVE 1 DIGIT FOR  lexicographically smaller",
+"Q4 NEW PROGRAMMING language",
+"Q2 PROBLEM numbers streakly increasing swap at most once",
+"Q4 POWERS OF 2 SUM",
+"Q3 PROBLEM 0th,1th etc cosntruct string",
+"Q4 PROBLEM DIGIT ANAGRAMS",
+"PROBLEM CONTIGUOUS SUBARRAYS M THAT SUM K"
+];
+
+var Descriptions={
+"SUM OF CONCATENATIONS":`Given an array of positive integers a, your task is to calculate the sum of every possible a[i] ∘ a[j], where a[i] ∘ a[j] is the concatenation of the string representations of a[i] and a[j] respectively.`,
+"TETRIX PROBLEM":`You are given a matrix of integers field of size n × m representing a game field, and also a matrix of integers figure of size 3 × 3 representing a figure. Both matrices contain only 0s and 1s, where 1 means that the cell is occupied, and 0 means that the cell is free.
+
+You choose a position at the top of the game field where you put the figure and then drop it down. The figure falls down until it either reaches the ground (bottom of the field) or lands on an occupied cell, which blocks it from falling further. After the figure has stopped falling, some of the rows in the field may become fully occupied.
+
+demonstration
+
+Your task is to find the dropping position such that at least one full row is formed. As a dropping position you should consider the column index of the cell in game field which matches the top left corner of the figure 3 × 3 matrix. If there are multiple dropping positions satisfying the condition, feel free to return any of them. If there are no such dropping positions, return -1.
+
+Note: When falling, the 3 × 3 matrix of the figure must be entirely inside the game field, even if the figure matrix is not totally occupied.`,
+"FULL SQUARE PROBLEM":`An integer n is called a full square, if there exists some integer s, such that n = s * s. Examples of full squares are 0, 1, 4, 9, 16, etc.
+
+Given an array of distinct integers numbers, your task is to find the number of pairs of indices (i, j) such that i ≤ j and the sum numbers[i] + numbers[j] is a full square.
+
+For numbers = [-1, 18, 3, 1, 5], the output should be solution(numbers) = 4.
+
+There is one pair of indices where the corresponding elements sum up to 0:
+
+(0, 3): numbers[0] + numbers[3] = -1 + 1 = 0.
+
+There are two pairs of indices where the corresponding elements sum up to 4:
+
+(0, 4): numbers[0] + numbers[4] = -1 + 5 = 4;
+
+(2, 3): numbers[2] + numbers[3] = 3 + 1 = 4.
+
+There is one pair of indices where the corresponding elements sum up to 36:
+
+(1, 1): numbers[1] + numbers[1] = 18 + 18 = 36;
+
+In total, there are 1 + 2 + 1 = 4 pairs summing up to full squares.`,
+"45 DEGREES PROBLEM":`Given a matrix of integers, we'd like to consider the sum of the elements within the area of a 45° rotated rectangle. More formally, the area is bounded by two diagonals parallel to the main diagonal and two diagonals parallel to the secondary diagonal. The dimensions of the rotated rectangle are defined by the number of elements along the borders of the rectangle.
+Given integers a and b representing the dimensions of the rotated rectangle, and matrix (a matrix of integers), your task is to find the greatest sum of integers contained within an a x b rotated rectangle.
+
+Note: The order of the dimensions is not important - consider all a x b and b x a rectangles.`,
+"SWATOOTHS PROBLEM":`A sawtooth sequence is a sequence of numbers that alternate between increasing and decreasing. In other words, each element is either strictly greater than its neighbouring elements or strictly less than its neighbouring elements.
+
+examples
+
+Given an array of integers arr, your task is to count the number of contiguous subarrays that represent a sawtooth sequence of at least two elements.`,
+"RIBBONS PROBLEM":`You are given an array of integers a, where each element a[i] represents the length of a ribbon.
+
+Your goal is to obtain k ribbons of the same length, by cutting the ribbons into as many pieces as you want.
+
+Your task is to calculate the maximum integer length L for which it is possible to obtain at least k ribbons of length L by cutting the given ones.`,
+"MY OWN MERGE WORDS":`You are implementing your own programming language and you've decided to add support for merging strings. A typical merge function would take two strings s1 and s2, and return the lexicographically smallest result that can be obtained by placing the symbols of s2 between the symbols of s1 in such a way that maintains the relative order of the characters in each string.
+
+For example, if s1 = "super" and s2 = "tower", the result should be merge(s1, s2) = "stouperwer".
+
+
+
+You'd like to make your language more unique, so for your merge function, instead of comparing the characters in the usual lexicographical order, you'll compare them based on how many times they occur in their respective initial strings (fewer occurrences means the character is considered smaller). If the number of occurrences are equal, then the characters should be compared in the usual lexicographical way. If both number of occurences and characters are equal, you should take the characters from the first string to the result. Note that occurrences in the initial strings are compared - they do not change over the merge process.
+
+Given two strings s1 and s2, return the result of the special merge function you are implementing.`,
+"MINERS PROBLEM":`if 0 mines reveal the 8 neighbors else if non zero mines don't reveal.`,
+"Q2 SUBSTRINGS A+B B+C C+A":`Q2 SUBSTRINGS A+B B+C C+A not equal and non empty. Return the number of ways . input solution(s)`,
+"Q2 REMOVE 1 DIGIT FOR  lexicographically smaller":`Q2 REMOVE 1 DIGIT FOR  lexicographically smaller, two strings s,t. Have letters and digits. Fidn in how many ways you can remove one digits from the one or the other in order to have s<t. solution(s,t)`,
+"Q4 NEW PROGRAMMING language":`You've created a new programming language, and now you've decided to add hashmap support to it. Actually you are quite disappointed that in common programming languages it's impossible to add a number to all hashmap keys, or all its values. So you've decided to take matters into your own hands and implement your own hashmap in your new language that has the following operations:
+
+insert x y - insert an object with key x and value y.
+get x - return the value of an object with key x.
+addToKey x - add x to all keys in map.
+addToValue y - add y to all values in map.
+To test out your new hashmap, you have a list of queries in the form of two arrays: queryTypes contains the names of the methods to be called (eg: insert, get, etc), and queries contains the arguments for those methods (the x and y values).
+
+Your task is to implement this hashmap, apply the given queries, and to find the sum of all the results for get operations.`,
+"Q2 PROBLEM numbers streakly increasing swap at most once":`You are given an array of non-negative integers numbers. You are allowed to choose any number from this array and swap any two digits in it. If after the swap operation the number contains leading zeros, they can be omitted and not considered (eg: 010 will be considered just 10).
+
+Your task is to check whether it is possible to apply the swap operation at most once, so that the elements of the resulting array are strictly increasing.
+`,
+"Q4 POWERS OF 2 SUM":`Given an array of unique integers numbers, your task is to find the number of pairs of indices (i, j) such that i ≤ j and the sum numbers[i] + numbers[j] is equal to some power of 2.
+
+Note: numbers 20 = 1, 21 = 2, 22 = 4, 23 = 8, etc. are considered to be powers of 2.`,
+"Q3 PROBLEM 0th,1th etc cosntruct string":`You are given an array of strings arr. Your task is to construct a string from the words in arr, starting with the 0th character from each word (in the order they appear in arr), followed by the 1st character, then the 2nd character, etc. If one of the words doesn't have an ith character, skip that word.
+
+Return the resulting string.`,
+"Q4 PROBLEM DIGIT ANAGRAMS":`Given an array of integers a, your task is to count the number of pairs i and j (where 0 ≤ i < j < a.length), such that a[i] and a[j] are digit anagrams.
+
+Two integers are considered to be digit anagrams if they contain the same digits. In other words, one can be obtained from the other by rearranging the digits (or trivially, if the numbers are equal). For example, 54275 and 45572 are digit anagrams, but 321 and 782 are not (since they don't contain the same digits). 220 and 22 are also not considered as digit anagrams, since they don't even have the same number of digits.
+`,
+"PROBLEM CONTIGUOUS SUBARRAYS M THAT SUM K":`Given an array of integers a, your task is to find how many of its contiguous subarrays of length m contain a pair of integers with a sum equal to k.
+
+More formally, given the array a, your task is to count the number of indices 0 ≤ i ≤ a.length - m such that a subarray [a[i], a[i + 1], ..., a[i + m - 1]] contains at least one pair (a[s], a[t]), where:
+
+s ≠ t
+a[s] + a[t] = k`
+	
+}
+
+var solutions={
+"SUM OF CONCATENATIONS":`function solution(a) {
+powsum=0;
+sumsum=0;
+for (var i=0;i<a.length;i++) {
+  sumsum=sumsum+a[i];
+  powsum=powsum+Math.pow(10,String(a[i]).length)  
+}
+return sumsum*(powsum+a.length)
+}`,
+"TETRIX PROBLEM":`
+function solution(field, figure) {
+var x=field.length;
+var y=field[0].length;
+for (var kk=0;kk<=x-3;kk++) {
+var subarr=((field.slice(kk,kk+3)))
+var tt=tables(subarr,figure)
+if (tt!=-1) {
+    return tt
+}
+}
+return -1
+}
+
+function tables(field,figure) {
+    for (var kk=0;kk<=field[0].length-3;kk++) {
+    var t=(field.map(function(row,i){ return row.map(function(v,j){ if (j-kk>=0 && j-kk<figure[i].length) { return figure[i][j-kk]+v} else {return v} })}) );
+    console.log(t)
+    t=(t.filter(function(v0){
+        var yy=true;
+        for (var m=0;m<v0.length;m++) {
+            if (v0[m]!=1) {
+                yy=false;
+            }
+        }
+        return yy
+        
+        }));
+        
+    if(t.length>0) {
+       return kk 
+    }
+    }
+    return -1
+}`,
+"FULL SQUARE PROBLEM":`function solution(numbers) {
+console.log(new Date().toISOString())	
+var cnt=0;
+var twomax=findTwoMax(numbers);
+var max1=twomax[0];
+var max2=twomax[1];
+var fullsquare=new Set();
+for (var i=0;i<=max1+max2;i++) {
+	if (isFullSquare(i)==true) {
+fullsquare.add(i)
+	}
+}
+
+fullsquare = Array.from(fullsquare);
+for (var i=0;i<numbers.length;i++) {
+	for (var j=0;j<fullsquare.length;j++) {
+		cnt=cnt+numbers.filter(function(v){return v==fullsquare[j]-numbers[i]}).length;
+	}
+}
+console.log(new Date().toISOString())
+	return cnt;
+}
+
+function findTwoMax(numbers) {
+	return numbers.sort(function(a,b){return b-a}).slice(0,2)
+}
+
+function isFullSquare(n) {
+    return Math.sqrt(n)%1==0
+}`,
+"45 DEGREES PROBLEM":`
+function solution(matrix, a, b) {
+    
+    
+
+    var sums=[];
+
+        
+    for (var i=0;i<Math.max(matrix.length,matrix[0].length);i++) {
+        for (var j=0;j<Math.max(matrix.length,matrix[0].length);j++) {
+           
+            try {
+sums.push((extractDiag(matrix,b,a,j,i)).map(function(row){return row.reduce(function(a,b){return a+b},0)}).reduce(function(a,b){return a+b},0))
+            } catch (e) {}
+ 
+            try {
+sums.push((extractDiag(matrix,a,b,j,i)).map(function(row){return row.reduce(function(a,b){return a+b},0)}).reduce(function(a,b){return a+b},0))
+            } catch (e) {}           
+        }
+    }
+    
+  //  console.log(sums)
+return sums.sort(function(a,b){return b-a})[0]
+}
+
+
+
+function extractDiag(arr,x,y,x_offset,y_offset) {
+    //console.log("x : "+x+" y: "+y+" x offs: "+x_offset+" y offs: "+y_offset);
+var firstsq=[0,x-1];
+var secondsq=[x-1,0];
+var thirdsq=[y-1,x+y-2];
+var fourthsq=[x+y-2,y-1];
+var points={};
+points[0]=(points[0]||[]).concat(x-1);
+points[x-1]=(points[x-1]||[]).concat(0);
+points[y-1]=(points[y-1]||[]).concat(x+y-2);
+points[x+y-2]=(points[x+y-2]||[]).concat(y-1);
+var pointA={};
+var pointC={};
+for (var i=1;i<x-1;i++) {
+	pointA[i]=x-1-i;
+	points[i]=(points[i]||[]).concat(pointA[i])
+}
+for (var i=1;i<y-1;i++) {
+	pointC[y-1-i]=x+y-2-i;
+	points[y-1-i]=(points[y-1-i]||[]).concat(pointC[y-1-i])
+}
+var pointB={};
+for (var key in pointA) {
+	pointB[parseInt(key)+y-1]=parseInt(pointA[key])+y-1
+	points[parseInt(key)+y-1]=(points[parseInt(key)+y-1]||[]).concat(pointB[parseInt(key)+y-1])
+}
+var pointD={};
+for (var key in pointC) {
+	pointD[parseInt(key)+x-1]=parseInt(pointC[key])-x+1
+	points[parseInt(key)+x-1]=(points[parseInt(key)+x-1]||[]).concat(pointD[parseInt(key)+x-1])
+}
+
+for (var key in points) {
+	points[key]=points[key].sort(function(a,b){ return a-b});
+	if (points[key].length>1) {
+		var temp=[];
+		for (var k=points[key][0];k<=points[key][1];k++) {
+		temp.push(k);	
+		}
+		points[key]=temp;
+	}
+}
+
+for (var key in points) {
+	for (var kk=0;kk<points[key].length;kk++) {
+	points[key][kk]=arr[parseInt(key)+parseInt(x_offset)][points[key][kk]+parseInt(y_offset)]
+}
+}
+
+var points_Arr=[];
+for (var key in points) {
+	var temp=[];
+	for (var kk=0;kk<points[key].length;kk++) {
+	temp.push(points[key][kk]);
+}
+points_Arr.push(temp)
+}
+return (points_Arr);
+
+
+}`,
+"SWATOOTHS PROBLEM":`
+function solution(arr){
+    // holds the count of sawtooths at each index of our input array,
+    // for sawtooth lengths up to that index
+    //# the resulting total sawtooth counts
+    var totalSawCounts = 0
+    var previousCount = 0
+    for (var currIdx=1;currIdx<arr.length;currIdx++) 
+    {
+        //console.log(currIdx)
+        var currCount = 0
+        var before = currIdx -1
+        var cont=false;
+        if (arr[currIdx] > arr[before]) {
+            var goingUp = true;
+            cont=true;
+			}
+        else if (arr[currIdx] < arr[before]){
+            var goingUp = false
+             cont=true;
+			}
+        else {
+            //console.log(arr[currIdx]);
+            //previousCount = currCount
+            
+			}
+        if ( cont==true) {
+       // # if we made it here, we have at least one sawtooth
+        currCount =  1
+
+        //# see if there was a previous solution (the DP part)
+        //# and if it continues our current sawtooth
+        if (before >= 1){
+            if (goingUp){
+                if (arr[before-1] > arr[before]){
+                    currCount = previousCount + currCount
+					}
+					}
+            else {
+                if (arr[before-1] < arr[before]) {
+                    currCount = previousCount + currCount
+					}
+					}
+					}
+        }
+        previousCount = currCount
+        totalSawCounts = totalSawCounts + currCount
+        //console.log(totalSawCounts)
+    }
+    return totalSawCounts
+	}`,
+"RIBBONS PROBLEM":`
+    let low = 0;
+    let high = mymax;
+    while (low < high) {
+        const mid = (low + high + 1) >> 1;
+
+        let cnt = 0;
+        for (let ribbon of a) {
+            cnt += Math.floor(ribbon / mid);
+        }
+        if (cnt < k) {
+            high = mid -1;
+        } else {
+            low = mid;
+        }
+    }
+    return low;`,
+"MY OWN MERGE WORDS":`
+function solution(s1, s2) {
+
+s1=s1.split("");
+s2=s2.split("");
+var s1_obj={};
+var s2_obj={};
+
+for (var i=0;i<s1.length;i++) {
+    s1_obj[s1[i]]=(s1_obj[s1[i]]||0)+1;
+}
+for (var i=0;i<s2.length;i++) {
+    s2_obj[s2[i]]=(s2_obj[s2[i]]||0)+1;
+}
+var res=[];
+var offset=0;
+for (var i=0;i<s1.length;i++) {
+    if (offset<s2.length) {
+     
+     if (s1_obj[s1[i]]<s2_obj[s2[offset]]) {
+         res.push([s1[i]]);
+        
+     } else if (s1_obj[s1[i]]>s2_obj[s2[offset]]) {
+          res.push([s2[offset]]);
+         i=i-1;
+         offset=offset+1;
+     } else {
+         if (s1[i]>s2[offset]) {
+            res.push([s2[offset]]);
+         i=i-1;
+         offset=offset+1;  
+         } else  {
+             res.push([s1[i]]);
+         } 
+     }
+      
+    } else {
+         res.push(s1[i]) 
+    }
+}
+
+if (offset<s2.length) {
+    res=res.concat(s2.slice(offset,s2.length))
+}
+
+return res.join("")
+}`,
+"MINERS PROBLEM":`var res="";
+ 
+ function solution(field,x,y) {
+     res=new Array(field.length).fill("").map(function(v){return new Array(field[0].length).fill(-1)})
+  
+    return  mycalc(field,x,y)
+ }
+ 
+  function sum(a,x,y) {
+
+      if (x==5 && y==1) {
+          console.log("called")
+      }
+var x_m1_y_m1=0;
+var x_m1_y=0;
+var x_m1_y_p1=0;
+var x_p1_y_m1=0;
+var x_p1_y=0;
+var x_p1_y_p1=0;
+var x_y_m1=0;
+var x_y_p1=0;
+if (x-1>=0 && y-1>=0) {
+  x_m1_y_m1 = a[x-1][y-1];
+}
+if (x-1>=0 && y>=0) {
+  x_m1_y = a[x-1][y];
+}
+if (x-1>=0 && y+1<a[0].length) {
+  x_m1_y_p1 = a[x-1][y+1];
+}
+if (x+1<a.length && y-1>=0) {
+  x_p1_y_m1 = a[x+1][y-1];
+}
+if (x+1<a.length && y>=0) {
+  x_p1_y = a[x+1][y];
+}
+if (x+1<a.length && y+1<a[0].length) {
+  x_p1_y_p1 = a[x+1][y+1];
+}
+if (x>=0 && y-1>=0) {
+  x_y_m1 = a[x][y-1];
+}
+if (x>=0 && y+1<a[0].length) {
+  x_y_p1 = a[x][y+1];
+}
+ return  x_m1_y_m1+x_m1_y+x_m1_y_p1+x_p1_y_m1+x_p1_y+x_p1_y_p1+x_y_m1+x_y_p1
+ }
+ 
+ function mycalc(a,x,y) {
+   // console.log("x: "+x+" y: "+y)
+    if (x<0 || x>=a.length || y<0 || y>=a[0].length) {
+        return res
+    }
+    
+     var mysum=sum(a,x,y);
+   
+     //console.log(x+" "+y+" "+mysum)
+ if (mysum>0) {
+ //    console.log(res)
+   res[x][y]=mysum;
+  // console.log(res)
+   return res
+ } else {
+   res[x][y]=0;
+   if ( y-1>=0 && x-1>=0 && res[x-1][y-1]==-1) {
+   mycalc(a,x-1,y-1);
+   }
+   if (x-1>=0 && res[x-1][y]==-1) {
+   mycalc(a,x-1,y);
+   }
+   if (x-1>=0 && y+1<a[0].length && res[x-1][y+1]==-1) {
+   mycalc(a,x-1,y+1);
+   }
+   if (y-1>=0 && res[x][y-1]==-1) {
+   mycalc(a,x,y-1);
+   }
+   if (y+1<a[0].length && res[x][y+1]==-1 ) {
+   mycalc(a,x,y+1);
+   }
+   if (x+1<a.length && y-1>=0 && res[x+1][y-1]==-1 ) {
+   mycalc(a,x+1,y-1);
+   }
+   if (x+1<a.length && res[x+1][y]==-1) {
+   mycalc(a,x+1,y);
+   }
+   if (x+1<a.length && y+1<a[0].length && res[x+1][y+1]==-1) {
+   mycalc(a,x+1,y+1);
+   }
+   return res
+ }
+ }`,
+"Q2 SUBSTRINGS A+B B+C C+A":` function solution(s) {
+s=s.split("");
+var results=[]
+for (var i=0;i<s.length;i++) {
+var str=splitit(s,i);
+//console.log(str)
+//console.log(s)
+for (var k=0;k<str[0].length;k++) {
+    var firstpart=splitit(str[0],k);
+    results.push([firstpart[0].join(""),firstpart[1].join(""),str[1].join("")])
+}    
+
+}
+
+console.log(results)
+    return results.filter(function(v){return v[0]!="" && v[1]!="" && v[2]!="" && v[0]+v[1]!=v[1]+v[2] &&  v[0]+v[1]!=v[2]+v[0] &&  v[1]+v[2]!=v[2]+v[0] }).length
+
+
+}
+
+function splitit(b,i) {
+    var t=[...b]
+    return [t.slice(0,i),t.slice(i,t.length)]
+}`,
+"Q2 REMOVE 1 DIGIT FOR  lexicographically smaller":`function solution(s, t) {
+s=s.split("");
+t=t.split("");
+var cnt=0;
+for (var i=0;i<s.length;i++) {
+    if (!isNaN(s[i])) {
+        if (s.slice(0,i).concat(s.slice(i+1,s.length)).join("")<t.join("")) {
+            cnt=cnt+1;
+        }
+    }
+}
+
+for (var i=0;i<t.length;i++) {
+    if (!isNaN(t[i])) {
+        if (t.slice(0,i).concat(t.slice(i+1,t.length)).join("")>s.join("")) {
+            cnt=cnt+1;
+        }
+    }
+}
+
+return cnt
+}`,
+"Q4 NEW PROGRAMMING language":`
+function solution(queryType, query) {
+var keyoffset=0;
+var valueoffset=0;
+var obj=[];
+var allget=0;
+var overall_keyoffset=0;
+var overall_valueoffset=0;
+var offsets=[];
+var getrequests={};
+// first check the get requests that we will receive (the getrequests will help reduce the stored object)
+for (var i=0;i<queryType.length;i++) {
+ if (queryType[i]=="get") {
+        getrequests[query[i][0]-keyoffset]=1;
+
+    } else if (queryType[i]=="addToKey") {
+        keyoffset=keyoffset+query[i][0]
+    } else if (queryType[i]=="addToValue") {
+        valueoffset=valueoffset+query[i][0]
+    }
+}
+var keyoffset=0;
+var valueoffset=0;
+
+for (var i=0;i<queryType.length;i++) {
+    if (queryType[i]=="insert") {
+        
+        
+        if (getrequests.hasOwnProperty(query[i][0]-keyoffset)) {
+
+              obj[obj.length]=({"key":query[i][0],"value":query[i][1],"keyoffset":keyoffset,"valueoffset":valueoffset})
+        }
+      
+
+       
+    } else if (queryType[i]=="get") {
+
+        var rec=obj.filter(function(v){return query[i][0]==v.key+keyoffset-v.keyoffset})[0]
+
+        allget=allget+rec.value+valueoffset-rec.valueoffset;
+
+
+    } else if (queryType[i]=="addToKey") {
+        keyoffset=keyoffset+query[i][0]
+    } else if (queryType[i]=="addToValue") {
+        valueoffset=valueoffset+query[i][0]
+    }
+}
+
+return allget
+
+}`,
+"Q2 PROBLEM numbers streakly increasing swap at most once":`function solution(numbers) {
+var mydif=differences(numbers);
+console.log(mydif)
+if (mydif.length>1) {
+    return false
+} else if (mydif.length==0) {
+    return true
+}
+
+//for (var k=0;k<mydif.length;k++) {
+    
+    if (canbefixed(numbers[mydif[0]-1],numbers[mydif[0]],numbers[mydif[0]+1])==true) {
+        return true
+    };
+    if (canbefixed(numbers[mydif[0]],numbers[mydif[0]+1],numbers[mydif[0]+2])==true) {
+        return true
+    };
+//}
+return false
+}
+
+function differences(numbers) {
+    return numbers.map(function(v,i){if(i==0 || numbers[i]-numbers[i-1]>0) { return "a" } else { return i-1}}).filter(function(v){return v!="a"});
+}
+
+function canbefixed(a,b,c) {
+   // console.log("a: "+a+" b: "+b+" c: "+c)
+    b=String(b).split("");
+    console.log(b)
+    for (var i=0;i<b.length-1;i++) {
+     for (var ii=i+1;ii<b.length;ii++) {
+        
+        var num=parseInt(b.map(function(v,r){if (r==i) {return b[ii]} else if (r==ii) {return b[i]} else {return b[r]}}).join(""));
+
+        if ((isNaN(a) || (!isNaN(a) && a<num)) && (isNaN(c) || (!isNaN(c) && num<c))) {
+            return true
+        }
+    }       
+    }
+    
+    
+    return false;
+}`,
+"Q4 POWERS OF 2 SUM":`function solution(numbers) {
+    var cnt=0;
+var obj={};
+for (var i=0;i<numbers.length;i++) {
+    obj[numbers[i]]=i;
+}
+var numbers_Set=new Set(...[numbers])
+var mymax=sortIt(numbers);
+var powersoftwo=new Set();
+
+powersoftwo.add(1);
+powersoftwo.add(2);
+var i=2;
+while (i<2*mymax+1) {
+    i=2*i;
+    powersoftwo.add(i);
+}
+
+powersoftwo=Array.from(powersoftwo)
+for (var i=0;i<numbers.length;i++) {
+for (var j=0;j<powersoftwo.length;j++) {
+
+ if (numbers_Set.has(powersoftwo[j]-numbers[i])) {
+     if (obj[powersoftwo[j]-numbers[i]]>=i) {
+         cnt=cnt+1;
+     }
+ }
+}
+}
+return cnt
+}
+
+function sortIt(n) {
+ return [...n].sort(function(a,b){return b-a})[0]
+}`,
+"Q3 PROBLEM 0th,1th etc cosntruct string":`function solution(arr) {
+    var mymaxword=maxWord(arr);
+    var res="";
+for (var i=0;i<mymaxword;i++) {
+
+    res= res+[...arr].map(function(row,ii) {return row.split("").map(function(cell,jj){
+        if (i<arr[ii].length && i==jj) {
+         return arr[ii][i]   
+        } else {
+            return ""
+        }
+        
+        
+        }).join("")}).join("")
+}
+return res
+
+}
+
+function maxWord(arr) {
+    return [...arr].sort(function(a,b){return b.length-a.length})[0].length
+}`,
+"Q4 PROBLEM DIGIT ANAGRAMS":`function solution(a) {
+    
+//a=new Array(10000).fill("").map(function(v,i){return 100000000+i});
+
+a=a.map(function(v){ return String(v).split("").sort(function(a,b){return a-b}).join("")})
+var obj={};
+var cnt=0;
+for (var i=0;i<a.length;i++) {
+    if (!obj.hasOwnProperty(a[i])) {
+        obj[a[i]]=0
+    } else {
+         obj[a[i]]= obj[a[i]]+1;
+       
+    }
+}
+for (var key in obj) {
+    if (obj[key]!=0) {
+    
+    if (obj[key]==1) {
+       cnt=cnt+1; 
+    } else {
+         cnt=cnt+obj[key]*(obj[key]+1)/2 
+    }
+       
+    } 
+}
+return cnt
+
+}`,
+"PROBLEM CONTIGUOUS SUBARRAYS M THAT SUM K":`function solution(a, m, k) {
+
+    var cnt = 0;
+
+    var latestpair = -1;
+
+    var myobj = {};
+
+    for (var i = 0; i < a.length; i++) {
+
+        if (myobj.hasOwnProperty(k - a[i])) {  
+ 
+            var maxOccurence = myobj[k - a[i]];
+
+            if (i - maxOccurence < m && maxOccurence>latestpair) {
+
+                latestpair = maxOccurence;
+
+            }
+
+        }
+        if (i >= m-1 && i - m < latestpair) {
+           
+               cnt = cnt + 1;
+            
+        }
+
+        myobj[a[i]] = i;
+
+    }
+
+    return cnt
+
+}`
+};
+document.querySelector("#mainselect").innerHTML=questions.map(function(v){return "<option value='"+v+"'>"+v+"</option>"}).join("");
+
+var selected=document.querySelector("#mainselect").value;
+//document.querySelector("#description").innerText=Descriptions[selected];
+document.querySelector("#solution").innerText=solutions[selected];
+
+function displayProblem() {
+var selected=document.querySelector("#mainselect").value;
+//document.querySelector("#description").innerText=Descriptions[selected];
+document.querySelector("#solution").innerText=solutions[selected];	
+}
+</script>
+</body>
+<html>
